@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孔博 | CFA - 投融资经理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Welcome Overlay -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-video-wrap">
+            <div class="welcome-video-box">
+                <video id="welcomeVideo" autoplay playsinline muted>
+                    <source src="welcome-video.webm" type="video/webm">
+                </video>
+                <button class="welcome-sound-hint" id="welcomeSoundHint">
+                    <i data-lucide="volume-1"></i>
+                    <span>点击开启声音</span>
+                </button>
+            </div>
+            <div class="welcome-actions">
+                <button class="welcome-enter" id="welcomeEnter">进入网站</button>
+                <button class="welcome-skip" id="welcomeSkip">跳过</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="bg-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Toggle -->
+    <button class="music-toggle is-playing" id="musicToggle" aria-label="暂停背景音乐">
+        <i data-lucide="music"></i>
+    </button>
+
+    <!-- Brand Logo -->
+    <a href="#" class="brand-logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+        <img src="logo.png" alt="KB Logo" fetchpriority="high" decoding="async">
+    </a>
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav" id="stickyNav" aria-label="主导航">
+        <div class="sticky-nav-inner">
+            <a href="#stats" class="sticky-nav-link">核心成绩</a>
+            <a href="#experience" class="sticky-nav-link">工作经历</a>
+            <a href="#education" class="sticky-nav-link">教育背景</a>
+            <a href="#expertise" class="sticky-nav-link">核心能力</a>
+            <a href="#insights" class="sticky-nav-link">市场洞察</a>
+            <div class="sticky-nav-dropdown">
+                <a href="#reports" class="sticky-nav-link">调研报告</a>
+                <div class="sticky-nav-submenu">
+                    <a href="#report-ebike" class="sticky-nav-sublink">E-bike 研究</a>
+                    <a href="#report-mideast" class="sticky-nav-sublink">中东经济</a>
+                    <a href="#report-china" class="sticky-nav-sublink">中国消费</a>
+                    <a href="#report-fabric" class="sticky-nav-sublink">户外面料</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-inner">
+                <div class="hero-text">
+                    <h1 class="hero-title reveal stagger-1">
+                        孔<span class="highlight">博</span><span class="cfa-badge">CFA</span>
+                    </h1>
+                    <p class="hero-tagline reveal stagger-2">
+                        深耕一级市场投资，具备美元/人民币双币基金投研、跨境融资及投后管理全链路实操经验。覆盖从项目挖掘、商业尽调到融资交割的完整投资生命周期，对消费科技、AI应用及出海赛道持续跟踪与深度研判。
+                    </p>
+                    <p class="hero-tagline reveal stagger-3">
+                        擅长以数据驱动决策，通过财务建模与行业研究框架识别商业价值与潜在风险。注重前瞻性布局，能够敏锐捕捉技术演进与市场结构的交叉机会，将战略洞察有效转化为可执行的投资行动和成长机会。
+                    </p>
+                    <p class="hero-motto reveal stagger-4">
+                        <span class="motto-line1">真正的价值发现不在于追逐热点，</span>
+                        <span class="motto-line2">而在于理解趋势背后的底层逻辑。</span>
+                    </p>
+
+                    <nav class="hero-nav reveal stagger-5">
+                        <div class="nav-ring-row">
+                            <a href="#stats" class="nav-btn">核心成绩</a>
+                            <a href="#experience" class="nav-btn">工作经历</a>
+                            <a href="#education" class="nav-btn">教育背景</a>
+                        </div>
+                        <div class="nav-ring-row nav-ring-row--lower">
+                            <a href="#expertise" class="nav-btn">核心能力</a>
+                            <a href="#insights" class="nav-btn">市场洞察</a>
+                            <a href="#reports" class="nav-btn">调研报告</a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="hero-avatar reveal stagger-6">
+                    <video class="avatar-video" src="avatar.webm" autoplay muted loop playsinline disablepictureinpicture></video>
+                    <div class="hero-name-en">Harry</div>
+                    <div class="hero-qrcode">
+                        <img src="qrcode_wechat_personal.jpg" alt="微信二维码" decoding="async">
+                        <span>欢迎扫码加我微信！</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section id="stats">
+        <div class="container">
+            <h2 class="section-title reveal"><i data-lucide="trending-up"></i>核心成绩</h2>
+            <div class="stats-grid">
+                <div class="stat-card reveal stagger-1">
+                    <div class="stat-number">$40M+</div>
+                    <div class="stat-label">主导 Shortmax<br>A轮 / A+轮融资</div>
+                </div>
+                <div class="stat-card reveal stagger-2">
+                    <div class="stat-number">60+</div>
+                    <div class="stat-label">路演触达<br>投资机构</div>
+                </div>
+                <div class="stat-card reveal stagger-3">
+                    <div class="stat-number">600+</div>
+                    <div class="stat-label">项目访谈<br>与挖掘</div>
+                </div>
+                <div class="stat-card reveal stagger-4">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">落地尽职<br>调查</div>
+                </div>
+                <div class="stat-card reveal stagger-1">
+                    <div class="stat-number">6+</div>
+                    <div class="stat-label">最终股权<br>投资落地</div>
+                </div>
+                <div class="stat-card reveal stagger-2">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">深度投后<br>管理项目</div>
+                </div>
+                <div class="stat-card reveal stagger-3">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">长篇市场<br>调研报告</div>
+                </div>
+                <div class="stat-card reveal stagger-4">
+                    <div class="stat-number">8+</div>
+                    <div class="stat-label">投资 / 融资<br>全链路管理</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title reveal"><i data-lucide="briefcase"></i>工作经历</h2>
+            <div class="timeline">
+                <div class="timeline-item reveal stagger-1">
+                    <div class="timeline-date">2025.07 – 至今</div>
+                    <div class="timeline-content">
+                        <div class="timeline-role">FA 板块负责人</div>
+                        <div class="timeline-company">博瑞华远</div>
+                        <ul class="timeline-list">
+                            <li>以独家财务顾问身份负责飞书深诺&REELFORCE、莱冰科技等项目首轮融资</li>
+                            <li>负责商业计划书撰写、财务模型搭建、路演、尽调对接、条款协商及融资交割全流程</li>
+                            <li>协助团队进行战略定位、渠道拓展及对外 PR 工作</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item reveal stagger-2">
+                    <div class="timeline-date">2024.05 – 2025.03</div>
+                    <div class="timeline-content">
+                        <div class="timeline-role">投融资经理</div>
+                        <div class="timeline-company">嘉兴九州文化 / Shortmax</div>
+                        <ul class="timeline-list">
+                            <li>主导 Shortmax A轮/A+轮两轮融资，累计完成 4000万+ 美元</li>
+                            <li>统筹 IPO 筹备及财务合规化，完成开曼架构搭建与审计要求</li>
+                            <li>推动 AI+短剧战略合作落地，两个月内促成头部视频大模型框架合作</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item reveal stagger-3">
+                    <div class="timeline-date">2021.05 – 2024.05</div>
+                    <div class="timeline-content">
+                        <div class="timeline-role">投资分析师</div>
+                        <div class="timeline-company">Ventech China 银泰资本</div>
+                        <ul class="timeline-list">
+                            <li>独立完成 6 个股权投资落地，覆盖消费科技赛道（NFKings、ACGBOX 等）</li>
+                            <li>撰写 30+ 篇深度行研报告，为合伙人提供核心赛道决策支持</li>
+                            <li>管理 15 家已投企业投后工作，涵盖健身/电商/零售/Web3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education">
+        <div class="container">
+            <h2 class="section-title reveal"><i data-lucide="graduation-cap"></i>教育背景</h2>
+            <div class="edu-grid">
+                <div class="edu-card reveal stagger-1">
+                    <div class="edu-info">
+                        <div class="edu-school">约翰霍普金斯大学 (QS 28)</div>
+                        <div class="edu-degree">计量金融学 | 硕士</div>
+                        <div class="edu-year">2019.07 – 2020.10</div>
+                    </div>
+                    <img src="jhu-logo.jpg" alt="约翰霍普金斯大学校徽" class="edu-logo" loading="lazy" decoding="async">
+                </div>
+                <div class="edu-card reveal stagger-2">
+                    <div class="edu-info">
+                        <div class="edu-school">上海理工大学</div>
+                        <div class="edu-degree">国际经济与贸易 | 学士</div>
+                        <div class="edu-year">2014.09 – 2018.09</div>
+                    </div>
+                    <img src="usst-logo.jpg" alt="上海理工大学校徽" class="edu-logo" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <div class="cert-grid">
+                <div class="cert-card reveal stagger-1">
+                    <div class="cert-logo-wrap">
+                        <img src="托福_副本.jpg" alt="TOEFL Logo" class="cert-logo" loading="lazy" decoding="async">
+                    </div>
+                    <div class="cert-meta">
+                        <span class="cert-name">TOEFL</span>
+                        <span class="cert-divider"></span>
+                        <span class="cert-score">100+</span>
+                    </div>
+                </div>
+                <div class="cert-card reveal stagger-2">
+                    <div class="cert-logo-wrap">
+                        <img src="GMAT.jpg" alt="GMAT Logo" class="cert-logo" loading="lazy" decoding="async">
+                    </div>
+                    <div class="cert-meta">
+                        <span class="cert-name">GMAT</span>
+                        <span class="cert-divider"></span>
+                        <span class="cert-score">~700</span>
+                    </div>
+                </div>
+                <div class="cert-card reveal stagger-3">
+                    <div class="cert-logo-wrap">
+                        <img src="CFA.png" alt="CFA Logo" class="cert-logo" loading="lazy" decoding="async">
+                    </div>
+                    <div class="cert-meta">
+                        <span class="cert-name">CFA</span>
+                        <span class="cert-divider"></span>
+                        <span class="cert-score cert-score--text">持证人</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise with Cards -->
+    <section id="expertise">
+        <div class="container">
+            <h2 class="section-title reveal"><i data-lucide="award"></i>核心能力</h2>
+            <div class="expertise-grid">
+                <div class="expertise-card reveal stagger-1">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-1.png" alt="全流程投融资" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">全流程投融资</h3>
+                        <p class="expertise-desc">尽调到交割，端到端闭环</p>
+                    </div>
+                </div>
+                <div class="expertise-card reveal stagger-2">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-2.jpg" alt="跨境资本运作" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">跨境资本运作</h3>
+                        <p class="expertise-desc">美元+人民币基金双币实操</p>
+                    </div>
+                </div>
+                <div class="expertise-card reveal stagger-3">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-3.jpg" alt="投后管理与退出" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">投后管理与退出</h3>
+                        <p class="expertise-desc">企业运营+动态退出监测</p>
+                    </div>
+                </div>
+                <div class="expertise-card reveal stagger-4">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-4.png" alt="深度行业研究" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">深度行业研究</h3>
+                        <p class="expertise-desc">多赛道专题深度报告+双语演讲</p>
+                    </div>
+                </div>
+                <div class="expertise-card reveal stagger-1">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-5.jpg" alt="赛道前瞻预判" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">赛道前瞻预判</h3>
+                        <p class="expertise-desc">提前布局AI+促成头部合作</p>
+                    </div>
+                </div>
+                <div class="expertise-card reveal stagger-2">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-6.jpg" alt="财务建模与估值" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">财务建模与估值</h3>
+                        <p class="expertise-desc">Vibe coding+多财务模型分析</p>
+                    </div>
+                </div>
+                <div class="expertise-card reveal stagger-3">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-7.jpg" alt="投资者关系管理" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">投资者关系管理</h3>
+                        <p class="expertise-desc">组织三会+LP协同合作</p>
+                    </div>
+                </div>
+                <div class="expertise-card reveal stagger-4">
+                    <div class="expertise-image-wrap">
+                        <img src="expertise-8.jpg" alt="风险识别与管控" loading="lazy" decoding="async">
+                    </div>
+                    <div class="expertise-body">
+                        <h3 class="expertise-title">风险识别与管控</h3>
+                        <p class="expertise-desc">项目实地尽调+预警分析</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Insights -->
+    <section id="insights">
+        <div class="container">
+            <h2 class="section-title reveal"><i data-lucide="book-open"></i>市场洞察</h2>
+            <div class="insights-grid">
+                <a href="https://mp.weixin.qq.com/s/HwSRFrIaSlxJtrEtXVQxEw" class="insight-card reveal stagger-1" target="_blank" rel="noopener">
+                    <div class="insight-cover">
+                        <img src="cover-1.png" alt="BW2025背后的漫展经济学" loading="lazy" decoding="async">
+                    </div>
+                    <div class="insight-meta">
+                        <h3 class="insight-title">BW2025背后的漫展经济学：漫展是何时何地诞生的？</h3>
+                        <span class="insight-link">阅读全文 →</span>
+                    </div>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/j21cpTvKOjcSaF-wkjxEAg" class="insight-card reveal stagger-2" target="_blank" rel="noopener">
+                    <div class="insight-cover">
+                        <img src="cover-2.png" alt="ACG动漫黄金时代" loading="lazy" decoding="async">
+                    </div>
+                    <div class="insight-meta">
+                        <h3 class="insight-title">ACG动漫黄金时代！Netflix早已下注！(上篇）</h3>
+                        <span class="insight-link">阅读全文 →</span>
+                    </div>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/uWKVegpNZ4a313zBM-JVmA" class="insight-card reveal stagger-3" target="_blank" rel="noopener">
+                    <div class="insight-cover">
+                        <img src="cover-3.png" alt="垄断，最好的生意？" loading="lazy" decoding="async">
+                    </div>
+                    <div class="insight-meta">
+                        <h3 class="insight-title">垄断，最好的生意？</h3>
+                        <span class="insight-link">阅读全文 →</span>
+                    </div>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/6vx7Zr8O0PCqSWTcjCaSgw" class="insight-card reveal stagger-1" target="_blank" rel="noopener">
+                    <div class="insight-cover">
+                        <img src="cover-4.png" alt="百亿市场" loading="lazy" decoding="async">
+                    </div>
+                    <div class="insight-meta">
+                        <h3 class="insight-title">百亿市场 | 从一块小小的冰块开始说起（一）</h3>
+                        <span class="insight-link">阅读全文 →</span>
+                    </div>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/W33K7brhZI1bmGj7YlQixw" class="insight-card reveal stagger-2" target="_blank" rel="noopener">
+                    <div class="insight-cover">
+                        <img src="cover-5.png" alt="恋爱代餐" loading="lazy" decoding="async">
+                    </div>
+                    <div class="insight-meta">
+                        <h3 class="insight-title">乙游，"恋爱代餐"为什么那么火？（上篇）</h3>
+                        <span class="insight-link">阅读全文 →</span>
+                    </div>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/tg94So7x2JICnNpxiQqWng" class="insight-card reveal stagger-3" target="_blank" rel="noopener">
+                    <div class="insight-cover">
+                        <img src="cover-6.png" alt="播客力量" loading="lazy" decoding="async">
+                    </div>
+                    <div class="insight-meta">
+                        <h3 class="insight-title">路漫漫其修远兮-播客的强大力量</h3>
+                        <span class="insight-link">阅读全文 →</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="insights-footer reveal stagger-4">
+                <div class="qrcode-card">
+                    <img src="qrcode_wechat.jpg" alt="公众号二维码" loading="lazy" decoding="async">
+                    <div class="qrcode-info">
+                        <p class="qrcode-title">深度内容持续更新中</p>
+                        <p class="qrcode-name">公众号「商业宇宙漫游指南」</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Research Reports -->
+    <section id="reports">
+        <div class="container">
+            <h2 class="section-title reveal"><i data-lucide="file-text"></i>调研报告</h2>
+            <div class="reports-grid">
+                <!-- Featured Report -->
+                <a href="https://pcnhden9wvcb.feishu.cn/file/YYdbbifpwo2dz5xUk1PcGV37nRb" id="report-ebike" class="report-card report-card--featured reveal stagger-1" target="_blank" rel="noopener">
+                    <div class="report-featured-image">
+                        <img src="ebike-cover.jpg" alt="E-bike 电助力自行车深度研究" loading="lazy" decoding="async">
+                    </div>
+                    <div class="report-featured-body">
+                        <span class="report-badge">精选报告</span>
+                        <h3 class="report-title">E-bike 电助力自行车深度研究（英文版）</h3>
+                        <p class="report-desc">覆盖全球 E-bike 市场规模、产业链结构与头部玩家竞争格局的深度分析</p>
+                        <span class="report-link">在线阅读 →</span>
+                    </div>
+                </a>
+
+                <!-- Sub Reports -->
+                <div class="reports-sub-grid">
+                    <a href="https://pcnhden9wvcb.feishu.cn/file/FbYbbqUptoFN1Nxd3FbcKChQnUd" id="report-mideast" class="report-card report-card--image reveal stagger-2" target="_blank" rel="noopener">
+                        <div class="report-image-wrap">
+                            <img src="mideast-cover.jpg" alt="中东经济与潜在市场分析（英文版）" loading="lazy" decoding="async">
+                        </div>
+                        <h3 class="report-title">中东经济与潜在市场分析（英文版）</h3>
+                        <span class="report-link">在线阅读 →</span>
+                    </a>
+                    <a href="https://pcnhden9wvcb.feishu.cn/file/BcElbVY2XoeooixJNkQc6Myengd" id="report-china" class="report-card report-card--image reveal stagger-3" target="_blank" rel="noopener">
+                        <div class="report-image-wrap">
+                            <img src="china-cover.jpg" alt="中国消费市场深度分析（中文版）" loading="lazy" decoding="async">
+                        </div>
+                        <h3 class="report-title">中国消费市场深度分析（中文版）</h3>
+                        <span class="report-link">在线阅读 →</span>
+                    </a>
+                    <a href="https://pcnhden9wvcb.feishu.cn/file/KRs7bOGXMo3nIHxLbx4cT9yknSE" id="report-fabric" class="report-card report-card--image reveal stagger-4" target="_blank" rel="noopener">
+                        <div class="report-image-wrap">
+                            <img src="fabric-cover.jpg" alt="户外面料行业深度分析（中文版）" loading="lazy" decoding="async">
+                        </div>
+                        <h3 class="report-title">户外面料行业深度分析（中文版）</h3>
+                        <span class="report-link">在线阅读 →</span>
+                    </a>
+                </div>
+            </div>
+            <p class="reports-disclaimer reveal stagger-4">免责声明：本站发布的研究报告、数据分析及市场观点仅供学术交流与个人分享使用。所有内容均基于公开渠道获取的信息，不代表任何机构立场，不构成投资建议。作者对信息准确性不作保证，读者应独立判断并自行承担相关风险。未经授权，禁止转载或商业使用。</p>
+        </div>
+    </section>
+
+    
+
+    <footer>
+        <div class="container reveal">
+            <p>© 2025 孔博 · CFA 持证人</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+        <i data-lucide="arrow-up"></i>
+    </button>
+
+    <script src="main.js"></script>
+</body>
+</html>
