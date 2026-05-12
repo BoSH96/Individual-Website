@@ -9,57 +9,60 @@ function safeCreateIcons() {
     }
 }
 
-// 1. Scroll reveal animation
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            if (entry.target.classList.contains('timeline-item')) {
-                const timeline = entry.target.closest('.timeline');
-                if (timeline) timeline.classList.add('is-revealed');
-            }
-            revealObserver.unobserve(entry.target);
-        }
-    });
-}, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -40px 0px'
-});
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let scrollRafId = 0;
+let latestScrollY = 0;
+let reportWraps = [];
+let heroAvatar = null;
+let heroSection = null;
+let backToTopBtn = null;
+let stickyNav = null;
+let stickyNavLinks = [];
+let sections = [];
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+// 1. Scroll reveal animation
+if (prefersReducedMotion) {
+    document.documentElement.classList.add('reduced-motion');
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+} else {
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                if (entry.target.classList.contains('timeline-item')) {
+                    const timeline = entry.target.closest('.timeline');
+                    if (timeline) timeline.classList.add('is-revealed');
+                }
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
 
 // 2. Sticky Navigation visibility & active link highlighting
-const stickyNav = document.getElementById('stickyNav');
-const stickyNavLinks = document.querySelectorAll('.sticky-nav-link[href^="#"]');
-const sections = document.querySelectorAll('section[id]');
+stickyNav = document.getElementById('stickyNav');
+stickyNavLinks = document.querySelectorAll('.sticky-nav-link[href^="#"]');
+sections = document.querySelectorAll('section[id]');
+backToTopBtn = document.getElementById('backToTop');
+reportWraps = document.querySelectorAll('.report-image-wrap');
+heroAvatar = document.querySelector('.hero-avatar');
+heroSection = document.querySelector('.hero');
 
 function onScroll() {
-    const scrollY = window.scrollY;
+    const scrollY = latestScrollY;
+    const navVisible = scrollY > 300;
 
-    // Toggle sticky nav visibility
-    if (stickyNav) {
-        if (scrollY > 300) {
-            stickyNav.classList.add('is-visible');
-        } else {
-            stickyNav.classList.remove('is-visible');
-        }
-    }
+    if (stickyNav) stickyNav.classList.toggle('is-visible', navVisible);
+    if (backToTopBtn) backToTopBtn.classList.toggle('is-visible', scrollY > 400);
 
-    // Toggle back-to-top button
-    const backToTop = document.getElementById('backToTop');
-    if (backToTop) {
-        if (scrollY > 400) {
-            backToTop.classList.add('is-visible');
-        } else {
-            backToTop.classList.remove('is-visible');
-        }
-    }
-
-    // Highlight active nav link
     let current = '';
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
         if (scrollY >= sectionTop - 100) {
             current = section.getAttribute('id');
         }
@@ -72,9 +75,36 @@ function onScroll() {
             link.classList.add('active');
         }
     });
+
+    if (heroAvatar && heroSection) {
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        if (scrollY < heroBottom) {
+            heroAvatar.style.transform = `translateY(${scrollY * 0.05}px)`;
+        }
+    }
+
+    if (!prefersReducedMotion) {
+        reportWraps.forEach(wrap => {
+            const rect = wrap.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) * -0.015;
+                wrap.style.transform = `translateY(${centerOffset}px)`;
+            }
+        });
+    }
 }
 
-window.addEventListener('scroll', onScroll, { passive: true });
+function requestScrollUpdate() {
+    latestScrollY = window.scrollY;
+    if (scrollRafId) return;
+    scrollRafId = window.requestAnimationFrame(() => {
+        scrollRafId = 0;
+        onScroll();
+    });
+}
+
+window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+window.addEventListener('resize', requestScrollUpdate, { passive: true });
 
 // 3. Smooth scroll for anchor links (offset for sticky nav)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -89,17 +119,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             const targetTop = targetEl.getBoundingClientRect().top + window.scrollY - navHeight - 16;
             window.scrollTo({
                 top: targetTop,
-                behavior: 'smooth'
+                behavior: prefersReducedMotion ? 'auto' : 'smooth'
             });
         }
     });
 });
 
 // 4. Back to top button
-const backToTopBtn = document.getElementById('backToTop');
 if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     });
 }
 
@@ -117,6 +146,21 @@ if (backToTopBtn) {
 
     const soundHint = document.getElementById('welcomeSoundHint');
 
+    function playWelcomeVideo() {
+        if (!video) return;
+        video.muted = false;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                if (soundHint) soundHint.classList.add('is-hidden');
+            }).catch(() => {
+                video.muted = true;
+                if (soundHint) soundHint.classList.remove('is-hidden');
+                video.play().catch(() => {});
+            });
+        }
+    }
+
     function closeOverlay() {
         if (hasClosed) return;
         hasClosed = true;
@@ -132,11 +176,9 @@ if (backToTopBtn) {
     }
 
     function unmuteVideo() {
-        if (video && video.muted) {
-            video.muted = false;
-            video.play().catch(() => {});
-        }
-        if (soundHint) soundHint.classList.add('is-hidden');
+        if (!video) return;
+        video.muted = false;
+        playWelcomeVideo();
     }
 
     function onSoundHintClick(e) {
@@ -156,28 +198,10 @@ if (backToTopBtn) {
         closeOverlay();
     }
 
-    // 确保声音提示按钮初始可见
-    if (soundHint) {
-        soundHint.classList.remove('is-hidden');
-    }
+    if (soundHint) soundHint.classList.add('is-hidden');
 
     if (video) {
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                // 只有非静音播放成功时才隐藏声音提示
-                if (!video.muted && soundHint) {
-                    soundHint.classList.add('is-hidden');
-                }
-            }).catch(() => {
-                video.muted = true;
-                video.play().catch(() => {});
-            });
-        } else {
-            if (!video.muted && soundHint) {
-                soundHint.classList.add('is-hidden');
-            }
-        }
+        playWelcomeVideo();
         video.addEventListener('ended', closeOverlay);
     }
 
@@ -208,10 +232,12 @@ if (bgMusic && musicToggle) {
             musicToggle.classList.add('is-playing');
             musicToggle.classList.remove('is-muted');
             icon.setAttribute('data-lucide', 'music');
+            musicToggle.setAttribute('aria-label', '暂停背景音乐');
         } else {
             musicToggle.classList.remove('is-playing');
             musicToggle.classList.add('is-muted');
             icon.setAttribute('data-lucide', 'volume-x');
+            musicToggle.setAttribute('aria-label', '播放背景音乐');
         }
         safeCreateIcons();
     }
@@ -234,8 +260,7 @@ if (bgMusic && musicToggle) {
         }
     };
 
-    // Show music icon as "ready" but do not play until overlay closes
-    updateMusicIcon(true);
+    updateMusicIcon(false);
 
     // Auto-play on user gestures after overlay closes
     document.addEventListener('click', () => window.tryPlayMusic(), { passive: true });
@@ -257,42 +282,11 @@ if (bgMusic && musicToggle) {
 
 // 7. Subtle parallax for Hero avatar and report covers
 (function initParallax() {
-    let ticking = false;
-    const avatarWrap = document.querySelector('.hero-avatar');
-    const reportWraps = document.querySelectorAll('.report-image-wrap');
-
     function updateParallax() {
-        const scrolled = window.scrollY;
-        const viewportH = window.innerHeight;
-
-        if (avatarWrap) {
-            const heroSection = document.querySelector('.hero');
-            const heroBottom = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : viewportH;
-            if (scrolled < heroBottom) {
-                const offset = scrolled * 0.05;
-                avatarWrap.style.transform = `translateY(${offset}px)`;
-            }
-        }
-
-        reportWraps.forEach(wrap => {
-            const rect = wrap.getBoundingClientRect();
-            if (rect.top < viewportH && rect.bottom > 0) {
-                const centerOffset = (rect.top + rect.height / 2 - viewportH / 2) * -0.015;
-                wrap.style.transform = `translateY(${centerOffset}px)`;
-            }
-        });
-
-        ticking = false;
+        if (prefersReducedMotion) return;
+        requestScrollUpdate();
     }
 
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }, { passive: true });
-
-    // Run once on load
     updateParallax();
 })();
 
@@ -377,5 +371,16 @@ if (bgMusic && musicToggle) {
         rootMargin: '0px 0px -30px 0px'
     });
 
+    if (prefersReducedMotion) {
+        statCards.forEach(card => {
+            const statNumber = card.querySelector('.stat-number');
+            if (statNumber) statNumber.classList.add('counted-done');
+        });
+        return;
+    }
+
     statCards.forEach(card => countUpObserver.observe(card));
 })();
+
+requestScrollUpdate();
+safeCreateIcons();
